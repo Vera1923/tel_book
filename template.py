@@ -40,7 +40,16 @@ def transfer_data(source: str, dest: str, num_row: int):
     dest: str - имя файла куда переносим
     num_row: int - номер переносимой строки
     """
-    pass
+    with open(source, 'r', encoding='utf-8') as s:
+        lines = s.readlines()
+        if 1 <= num_row <= len(lines):
+            line_to_copy = lines[num_row - 1]
+            #new_line = '\n' if read_all(dest) != "" else ''
+            with open(dest, 'a', encoding='utf-8') as d:
+                d.writelines(line_to_copy)
+            print(f'Строка {num_row} успешно скопирована из {source} в {dest}')
+        else:
+            print(f'Недопустимый номер строки. В файле {source} всего {len(lines)} строк.')
 
 
 INFO_STRING = """
@@ -52,6 +61,7 @@ INFO_STRING = """
 """
 
 file = "Text.txt"
+dest_path = 'Text2.txt'
 
 if file not in os.listdir():
     print("указанное имя файла отсутсвует")
@@ -70,5 +80,7 @@ while True:
         data = input("Введите значение: ")
         print(search_user(file, data))
     elif mode == 4:
-        # Тут нужно вызвать функцию с аргументами
-        pass
+        sourse_path = file
+        print(read_all(file))
+        user_num_row = int(input(f'Введите номер строки: '))
+        print(transfer_data(sourse_path, dest_path, user_num_row))
